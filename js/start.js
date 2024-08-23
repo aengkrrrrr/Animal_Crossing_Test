@@ -1,6 +1,7 @@
 const start_btn = document.querySelector('.start_btn');
 const intro = document.querySelector('.intro');
-const qna01 = document.querySelector('.qna01');
+const qna = document.querySelector('.qna');
+const qPoint = 10;
 
 function addAnswer(answerText, qIdx){
   const a = document.querySelector('.aArea');
@@ -16,7 +17,8 @@ function addAnswer(answerText, qIdx){
       children[i].disabled = true;
       children[i].style.display='none';
     }
-  })
+    next(++qIdx);
+  }, false)
 }
 
 function next(qIdx){
@@ -33,14 +35,16 @@ function next(qIdx){
   for (let i in qnaList[qIdx].a){
     addAnswer(qnaList[qIdx].a[i].answer, qIdx);
   }
+  const status = document.querySelector('.status_bar');
+  status.style.width = (100/qPoint) * (qIdx+1) + '%';
 }
 
 function start(){
   start_btn.addEventListener('click', ()=>{
     intro.style.display='none';
-    qna01.style.display='block';
+    qna.style.display='block';
     
     let qIdx = 0;
-    next(++qIdx);
+    next(qIdx);
   } , false);
 }
