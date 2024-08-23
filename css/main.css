@@ -1,0 +1,26 @@
+.intro {
+ text-align: center;
+ position: relative;
+}
+.intro::before {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 120px;
+    left: 50%;
+    top: 40px;
+    transform: translateX(-50%);
+    background: url(../images/동숲\ 로고.webp) no-repeat 100% 100% / cover;
+}
+.main_bg {
+    width: 100%;
+}
+.start_btn {
+    position: absolute;
+    left: 50%;
+    top: 180px;
+    transform: translateX(-50%);
+}
+.qna01 {
+    display: none;
+}
