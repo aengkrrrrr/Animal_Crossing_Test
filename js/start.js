@@ -1,9 +1,18 @@
 const start_btn = document.querySelector('.start_btn');
 const intro = document.querySelector('.intro');
 const qna = document.querySelector('.qna');
-const qPoint = 10;
+const result = document.querySelector('.result');
+const qPoint = 4;
+const select = [];
 
-function addAnswer(answerText, qIdx){
+function showResult(){
+    qna.style.display='none';
+    result.style.display='block';
+
+    console.log(select);
+}
+
+function addAnswer(answerText, qIdx, idx){
   const a = document.querySelector('.aArea');
   const answer = document.createElement('button');
 
@@ -17,11 +26,21 @@ function addAnswer(answerText, qIdx){
       children[i].disabled = true;
       children[i].style.display='none';
     }
+    setTimeout(() => {
+      select[qIdx] = idx;
+      for(let i = 0; i<children.length; i++){
+        children[i].style.display='none';
+      }
+    });
     next(++qIdx);
   }, false)
 }
 
 function next(qIdx){
+  if(qIdx+1 === qPoint){
+    showResult();
+  }
+
   const q = document.querySelector('.qArea');
   const a = document.querySelector('.aArea');
   
@@ -32,8 +51,8 @@ function next(qIdx){
   q.innerHTML = qnaList[qIdx].q;
   
   // 새로운 답변 버튼들 추가
-  for (let i in qnaList[qIdx].a){
-    addAnswer(qnaList[qIdx].a[i].answer, qIdx);
+  for (let i = 0; i < qnaList[qIdx].a.length; i++){
+    addAnswer(qnaList[qIdx].a[i].answer, qIdx, i);
   }
   const status = document.querySelector('.status_bar');
   status.style.width = (100/qPoint) * (qIdx+1) + '%';
