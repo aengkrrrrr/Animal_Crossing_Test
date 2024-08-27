@@ -5,6 +5,38 @@ const result = document.querySelector('.result');
 const qPoint = 4;
 const select = [];
 
+function calResult() {
+
+
+  const selectArray = [
+    {  name : 'cat' , value: 0, key: 0}
+  ]
+
+  for(let i = 0; i < qPoint; i++){
+    const target = qnaList[i].a[select[i]];
+    for(let r = 0; r < target.length; r++){
+      for (let k = 0; k < selectArray.length; k++){
+        if(target.type[r] === selectArray[k].name){
+          selectArray[k].value += 1;
+
+        }
+      }
+    }
+    
+    const resultArray = selectArray.sort(function(a,b){
+      if(a.value > b.value){
+        return -1;
+      }
+      if(a.value < b.value){
+        return 1;
+      }
+      return 0;
+    })
+    const resultWord = resultArray[0].key;
+    return resultWord;
+  }
+}
+
 function showResult(){
     qna.style.display='none';
     result.style.display='block';
