@@ -9,7 +9,11 @@ function calResult() {
 
 
   const selectArray = [
-    {  name : 'cat' , value: 0, key: 0}
+    {  name : '1' , value: 0, key: 0},
+    {  name : '2' , value: 0, key: 1},
+    {  name : '3' , value: 0, key: 2},
+    {  name : '4' , value: 0, key: 3},
+    {  name : '5' , value: 0, key: 4}
   ]
 
   for(let i = 0; i < qPoint; i++){
