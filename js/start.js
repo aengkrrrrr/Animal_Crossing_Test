@@ -2,28 +2,39 @@ const start_btn = document.querySelector('.start_btn');
 const intro = document.querySelector('.intro');
 const qna = document.querySelector('.qna');
 const result = document.querySelector('.result');
-const qPoint = 4;
+const qPoint = 3;
 const select = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 const answerList = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 function calResult() {
   var result = select.indexOf(Math.max(...select));
+  if (result >= resultList.length) {
+    return resultList.length - 1;
+  }
   return result;
-
 }
 
 function setResult(){
   let point = calResult();
+  console.log("Point: ", point);
   const resultName = document.querySelector('.resultName');
-  resultName.innerHTML = resultList[point].name;
+  if(resultList[point]) {
+    resultName.innerHTML = resultList[point].name;
+  } else {
+    console.error("Invalid point value: ", point);
+  }
   console.log(answerList);
 
-  const answerGroup = document.querySelector('.asnwerGroup');
+  const answerGroup = document.querySelector('.answerGroup');
   for(let i = 0; i < qPoint; i++){
     let tempLi = document.createElement('li');
-    let tempText = qnaList[i].q + " " + qnaList[i].a[answerList[i]];
-    tempLi.innerText = tempText;
-    answerGroup.appendChild(tempLi);
+    if(qnaList[i] && qnaList[i].a[answerList[i]]) {
+      let tempText = qnaList[i].q + " " + qnaList[i].a[answerList[i]].answer;
+      tempLi.innerText = tempText;
+      answerGroup.appendChild(tempLi);
+    } else {
+      console.error("Invalid qnaList data at index: ", i);
+    }
   }
 
   var resultImg = document.createElement('img');
@@ -36,7 +47,7 @@ function setResult(){
   imgDiv.appendChild(resultImg);
   
   const resultDesc = document.querySelector('.resultDesc');
-  resultDesc.innerHTML = resultList[point].desc;
+  resultDesc.innerHTML = resultList[point] ? resultList[point].desc : "";
 }
 
 function showResult(){
@@ -76,7 +87,7 @@ function addAnswer(answerText, qIdx, idx){
 }
 
 function next(qIdx){
-  if(qIdx+1 === qPoint){
+  if(qIdx === qPoint){
     showResult();
     return;
   }
