@@ -3,48 +3,46 @@ const intro = document.querySelector('.intro');
 const qna = document.querySelector('.qna');
 const result = document.querySelector('.result');
 const qPoint = 4;
-const select = [];
+const select = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+const answerList = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 function calResult() {
+  var result = select.indexOf(Math.max(...select));
+  return result;
 
+}
 
-  const selectArray = [
-    {  name : '1' , value: 0, key: 0},
-    {  name : '2' , value: 0, key: 1},
-    {  name : '3' , value: 0, key: 2},
-    {  name : '4' , value: 0, key: 3},
-    {  name : '5' , value: 0, key: 4}
-  ]
+function setResult(){
+  let point = calResult();
+  const resultName = document.querySelector('.resultName');
+  resultName.innerHTML = resultList[point].name;
+  console.log(answerList);
 
+  const answerGroup = document.querySelector('.asnwerGroup');
   for(let i = 0; i < qPoint; i++){
-    const target = qnaList[i].a[select[i]];
-    for(let r = 0; r < target.length; r++){
-      for (let k = 0; k < selectArray.length; k++){
-        if(target.type[r] === selectArray[k].name){
-          selectArray[k].value += 1;
-
-        }
-      }
-    }
-    
-    const resultArray = selectArray.sort(function(a,b){
-      if(a.value > b.value){
-        return -1;
-      }
-      if(a.value < b.value){
-        return 1;
-      }
-      return 0;
-    })
-    const resultWord = resultArray[0].key;
-    return resultWord;
+    let tempLi = document.createElement('li');
+    let tempText = qnaList[i].q + " " + qnaList[i].a[answerList[i]];
+    tempLi.innerText = tempText;
+    answerGroup.appendChild(tempLi);
   }
+
+  var resultImg = document.createElement('img');
+  const imgDiv = document.querySelector('.resultImg');
+  var imgURL = 'img/image-' + point + '.png';
+
+  resultImg.src = imgURL;
+  resultImg.alt = point;
+  resultImg.classList.add('img-fluid');
+  imgDiv.appendChild(resultImg);
+  
+  const resultDesc = document.querySelector('.resultDesc');
+  resultDesc.innerHTML = resultList[point].desc;
 }
 
 function showResult(){
     qna.style.display='none';
     result.style.display='block';
-
+    setResult();
     console.log(select);
 }
 
@@ -57,13 +55,18 @@ function addAnswer(answerText, qIdx, idx){
   answer.innerHTML = answerText;
 
   answer.addEventListener('click', function(){
+    answerList[qIdx] = idx;
     const children = document.querySelectorAll('.answerList');
     for(let i = 0; i<children.length; i++){
       children[i].disabled = true;
       children[i].style.display='none';
     }
     setTimeout(() => {
-      select[qIdx] = idx;
+      const target = qnaList[qIdx].a[idx].type;
+      for(let r = 0; r < target.length; r++){
+        select[target[r]] += 1;
+      }
+   
       for(let i = 0; i<children.length; i++){
         children[i].style.display='none';
       }
@@ -75,6 +78,7 @@ function addAnswer(answerText, qIdx, idx){
 function next(qIdx){
   if(qIdx+1 === qPoint){
     showResult();
+    return;
   }
 
   const q = document.querySelector('.qArea');
