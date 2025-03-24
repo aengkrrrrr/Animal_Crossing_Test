@@ -2,7 +2,7 @@ const start_btn = document.querySelector('.start_btn');
 const intro = document.querySelector('.intro');
 const qna = document.querySelector('.qna');
 const result = document.querySelector('.result');
-const qPoint = 3;
+const qPoint = 4;
 const select = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 const answerList = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
