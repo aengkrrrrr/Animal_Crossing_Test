@@ -5,7 +5,7 @@ font-family:'SUIT', sans-serif;
 
 @font-face {
     font-family: 'SUIT';
-    src: url('/font/SUIT-Bold.ttf') format('truetype');
+    src: url('/animal_crossing/font/SUIT-Bold.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
   }

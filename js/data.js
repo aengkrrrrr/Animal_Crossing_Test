@@ -39,19 +39,75 @@ const qnaList = [
 
 
 const resultConditions = [
-    { answers: ['a', 'a', 'a', 'a', 'a', 'a'], result: 0 }, // 쭈니
-    { answers: ['b', 'b', 'b', 'b', 'b', 'b'], result: 1 }, // 귀오미
-    { answers: ['a', 'b', 'a', 'b', 'a', 'b'], result: 2 }, // 너굴
-    { answers: ['b', 'a', 'b', 'a', 'b', 'a'], result: 3 }, // 스트로베리
-    { answers: ['a', 'a', 'b', 'b', 'a', 'b'], result: 4 }, // 부엉
-    { answers: ['b', 'b', 'a', 'a', 'b', 'a'], result: 5 }, // 호떡
-    { answers: ['a', 'b', 'b', 'a', 'a', 'b'], result: 6 }, // 타코
-    { answers: ['b', 'a', 'b', 'b', 'a', 'a'], result: 7 }  // 사이다
+    { answers: ['a', 'a', 'a', 'a', 'a', 'a'], result: 0 },// 시베리아
+    { answers: ['a', 'a', 'a', 'a', 'a', 'b'], result: 1 },// 귀오미
+    { answers: ['a', 'a', 'a', 'a', 'b', 'a'], result: 2 },// 너굴
+    { answers: ['a', 'a', 'a', 'a', 'b', 'b'], result: 3 },// 스트로베리
+    { answers: ['a', 'a', 'a', 'b', 'a', 'a'], result: 4 },// 부엉
+    { answers: ['a', 'a', 'a', 'b', 'a', 'b'], result: 5 },// 호떡
+    { answers: ['a', 'a', 'a', 'b', 'b', 'a'], result: 6 },// 타코
+    { answers: ['a', 'a', 'a', 'b', 'b', 'b'], result: 7 }, // 사이다
+    { answers: ['a', 'a', 'b', 'a', 'a', 'a'], result: 5 },
+    { answers: ['a', 'a', 'b', 'a', 'a', 'b'], result: 6 },
+    { answers: ['a', 'a', 'b', 'a', 'b', 'a'], result: 4 },
+    { answers: ['a', 'a', 'b', 'a', 'b', 'b'], result: 3 },
+    { answers: ['a', 'a', 'b', 'b', 'a', 'a'], result: 2 },
+    { answers: ['a', 'a', 'b', 'b', 'a', 'b'], result: 1 },
+    { answers: ['a', 'a', 'b', 'b', 'b', 'a'], result: 0 },
+    { answers: ['a', 'a', 'b', 'b', 'b', 'b'], result: 1 },
+    { answers: ['a', 'b', 'a', 'a', 'a', 'a'], result: 2 },
+    { answers: ['a', 'b', 'a', 'a', 'a', 'b'], result: 3 },
+    { answers: ['a', 'b', 'a', 'a', 'b', 'a'], result: 4 },
+    { answers: ['a', 'b', 'a', 'a', 'b', 'b'], result: 5 },
+    { answers: ['a', 'b', 'a', 'b', 'a', 'a'], result: 6 },
+    { answers: ['a', 'b', 'a', 'b', 'a', 'b'], result: 7 },
+    { answers: ['a', 'b', 'a', 'b', 'b', 'a'], result: 0 },
+    { answers: ['a', 'b', 'a', 'b', 'b', 'b'], result: 1 },
+    { answers: ['a', 'b', 'b', 'a', 'a', 'a'], result: 2 },
+    { answers: ['a', 'b', 'b', 'a', 'a', 'b'], result: 3 },
+    { answers: ['a', 'b', 'b', 'a', 'b', 'a'], result: 4 },
+    { answers: ['a', 'b', 'b', 'a', 'b', 'b'], result: 5 },
+    { answers: ['a', 'b', 'b', 'b', 'a', 'a'], result: 6 },
+    { answers: ['a', 'b', 'b', 'b', 'a', 'b'], result: 7 },
+    { answers: ['a', 'b', 'b', 'b', 'b', 'a'], result: 0 },
+    { answers: ['a', 'b', 'b', 'b', 'b', 'b'], result: 1 },
+    { answers: ['b', 'a', 'a', 'a', 'a', 'a'], result: 2 },
+    { answers: ['b', 'a', 'a', 'a', 'a', 'b'], result: 4 },
+    { answers: ['b', 'a', 'a', 'a', 'b', 'a'], result: 3 },
+    { answers: ['b', 'a', 'a', 'a', 'b', 'b'], result: 6 },
+    { answers: ['b', 'a', 'a', 'b', 'a', 'a'], result: 5 },
+    { answers: ['b', 'a', 'a', 'b', 'a', 'b'], result: 7 },
+    { answers: ['b', 'a', 'a', 'b', 'b', 'a'], result: 2 },
+    { answers: ['b', 'a', 'a', 'b', 'b', 'b'], result: 1 },
+    { answers: ['b', 'a', 'b', 'a', 'a', 'a'], result: 0 },
+    { answers: ['b', 'a', 'b', 'a', 'a', 'b'], result: 5 },
+    { answers: ['b', 'a', 'b', 'a', 'b', 'a'], result: 2 },
+    { answers: ['b', 'a', 'b', 'a', 'b', 'b'], result: 3 },
+    { answers: ['b', 'a', 'b', 'b', 'a', 'a'], result: 4 },
+    { answers: ['b', 'a', 'b', 'b', 'a', 'b'], result: 6 },
+    { answers: ['b', 'a', 'b', 'b', 'b', 'a'], result: 7 },
+    { answers: ['b', 'a', 'b', 'b', 'b', 'b'], result: 5 },
+    { answers: ['b', 'b', 'a', 'a', 'a', 'a'], result: 4 },
+    { answers: ['b', 'b', 'a', 'a', 'a', 'b'], result: 3 },
+    { answers: ['b', 'b', 'a', 'a', 'b', 'a'], result: 3 },
+    { answers: ['b', 'b', 'a', 'a', 'b', 'b'], result: 6 },
+    { answers: ['b', 'b', 'a', 'b', 'a', 'a'], result: 5 },
+    { answers: ['b', 'b', 'a', 'b', 'a', 'b'], result: 4 },
+    { answers: ['b', 'b', 'a', 'b', 'b', 'a'], result: 4 },
+    { answers: ['b', 'b', 'a', 'b', 'b', 'b'], result: 5 },
+    { answers: ['b', 'b', 'b', 'a', 'a', 'a'], result: 7 },
+    { answers: ['b', 'b', 'b', 'a', 'a', 'b'], result: 7 },
+    { answers: ['b', 'b', 'b', 'a', 'b', 'a'], result: 1 },
+    { answers: ['b', 'b', 'b', 'a', 'b', 'b'], result: 0 },
+    { answers: ['b', 'b', 'b', 'b', 'a', 'a'], result: 4 },
+    { answers: ['b', 'b', 'b', 'b', 'a', 'b'], result: 6 },
+    { answers: ['b', 'b', 'b', 'b', 'b', 'a'], result: 3 },
+    { answers: ['b', 'b', 'b', 'b', 'b', 'b'], result: 6 }
 ];
-
+    
 const resultList = [
     {
-        name: '🌟 타고난 리더이자 통솔자 <쭈니>',
+        name: '🌟 타고난 리더이자 통솔자 <시베리아>',
         desc: '분석적이고 객관적이며, 주변 세계에 자신만의 질서를 부여하는 것을 좋아하는 당신! 문제 해결 능력이 뛰어나며, 어려운 상황에서도 냉철한 판단을 내리는 편이에요. 가끔 완벽함을 추구하느라 스트레스를 받을 수도 있지만, 주변 사람들은 당신을 믿고 따르는 경우가 많아요!',
         img: "url('../images/image-1.jpg')"
     },

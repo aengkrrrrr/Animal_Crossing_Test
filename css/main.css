@@ -24,7 +24,7 @@
 .qna {
     display: none;
     height: 484px;
-    background: url(/images/4d5f51e617292bf3dec63e79c7a3392f.jpg) no-repeat 100% 100%;
+    background: url(/animal_crossing/images/4d5f51e617292bf3dec63e79c7a3392f.jpg) no-repeat 100% 100%;
     padding: 40px 20px;
 }
 .qna_wrap {
@@ -45,7 +45,7 @@
     transform: translate(-50%);
     width: 530px;
     height: 120px;
-    background: url(../images/말풍선_기본.png) no-repeat 50% 50% / cover;
+    background: url(/animal_crossing/images/말풍선_기본.png) no-repeat 50% 50% / cover;
     z-index: -1;
 }
 .aArea {

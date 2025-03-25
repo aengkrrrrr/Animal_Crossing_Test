@@ -41,7 +41,7 @@ function setResult() {
   const imgDiv = document.querySelector('.resultImg');
   imgDiv.innerHTML = ''; // 기존 이미지 제거
   let resultImg = document.createElement('img');
-  resultImg.src = `../images/members/image-${point}.jpg`;
+  resultImg.src = `/animal_crossing/images/members/image-${point}.jpg`;
   resultImg.classList.add('img-fluid');
   imgDiv.appendChild(resultImg);
 }
