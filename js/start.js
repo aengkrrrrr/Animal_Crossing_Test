@@ -2,119 +2,105 @@ const start_btn = document.querySelector('.start_btn');
 const intro = document.querySelector('.intro');
 const qna = document.querySelector('.qna');
 const result = document.querySelector('.result');
-const qPoint = 4;
-const select = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-const answerList = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+const qPoint = qnaList.length; // 질문 개수
+const answerList = []; // 사용자의 선택 기록
 
 function calResult() {
-  var result = select.indexOf(Math.max(...select));
-  if (result >= resultList.length) {
-    return resultList.length - 1;
-  }
-  return result;
+  let countA = 0;
+  let countB = 0;
+
+  // answerList에서 A, B 개수 세기
+  answerList.forEach(choice => {
+    if (choice === 'a') countA++;
+    else if (choice === 'b') countB++;
+  });
+
+  console.log(`A 선택 개수: ${countA}, B 선택 개수: ${countB}`);
+
+  // A 선택이 많으면 0번 결과, B가 많으면 1번 결과, 동률이거나 그 외는 2번 결과
+  if (countA > countB) return 0;
+  else if (countB > countA) return 1;
+  else return 2;
 }
 
-function setResult(){
+function setResult() {
   let point = calResult();
-  console.log("Point: ", point);
+  console.log("결과 인덱스: ", point);
+
   const resultName = document.querySelector('.resultName');
-  if(resultList[point]) {
+  const resultDesc = document.querySelector('.resultDesc');
+
+  if (resultList[point]) {
     resultName.innerHTML = resultList[point].name;
+    resultDesc.innerHTML = resultList[point].desc;
   } else {
-    console.error("Invalid point value: ", point);
-  }
-  console.log(answerList);
-
-  const answerGroup = document.querySelector('.answerGroup');
-  for(let i = 0; i < qPoint; i++){
-    let tempLi = document.createElement('li');
-    if(qnaList[i] && qnaList[i].a[answerList[i]]) {
-      let tempText = qnaList[i].q + " " + qnaList[i].a[answerList[i]].answer;
-      tempLi.innerText = tempText;
-      answerGroup.appendChild(tempLi);
-    } else {
-      console.error("Invalid qnaList data at index: ", i);
-    }
+    console.error("잘못된 결과 인덱스: ", point);
   }
 
-  var resultImg = document.createElement('img');
+  // 결과 이미지 설정
   const imgDiv = document.querySelector('.resultImg');
-  var imgURL = 'img/image-' + point + '.png';
-
-  resultImg.src = imgURL;
-  resultImg.alt = point;
+  imgDiv.innerHTML = ''; // 기존 이미지 제거
+  let resultImg = document.createElement('img');
+  resultImg.src = `img/image-${point}.png`;
+  resultImg.alt = `결과 ${point}`;
   resultImg.classList.add('img-fluid');
   imgDiv.appendChild(resultImg);
-  
-  const resultDesc = document.querySelector('.resultDesc');
-  resultDesc.innerHTML = resultList[point] ? resultList[point].desc : "";
 }
 
-function showResult(){
-    qna.style.display='none';
-    result.style.display='block';
-    setResult();
-    console.log(select);
+function showResult() {
+  qna.style.display = 'none';
+  result.style.display = 'block';
+  setResult();
 }
 
-function addAnswer(answerText, qIdx, idx){
+function addAnswer(answerObj, qIdx) {
   const a = document.querySelector('.aArea');
-  const answer = document.createElement('button');
 
-  answer.classList.add('answerList');
-  a.appendChild(answer);
-  answer.innerHTML = answerText;
+  Object.keys(answerObj).forEach(key => {
+    const answer = document.createElement('button');
+    answer.classList.add('answerList');
+    answer.innerHTML = answerObj[key];
+    a.appendChild(answer);
 
-  answer.addEventListener('click', function(){
-    answerList[qIdx] = idx;
-    const children = document.querySelectorAll('.answerList');
-    for(let i = 0; i<children.length; i++){
-      children[i].disabled = true;
-      children[i].style.display='none';
-    }
-    setTimeout(() => {
-      const target = qnaList[qIdx].a[idx].type;
-      for(let r = 0; r < target.length; r++){
-        select[target[r]] += 1;
-      }
-   
-      for(let i = 0; i<children.length; i++){
-        children[i].style.display='none';
-      }
+    answer.addEventListener('click', function() {
+      answerList[qIdx] = key; // 사용자가 선택한 값 저장
+      console.log(`질문 ${qIdx + 1}: ${key} 선택`);
+
+      // 다음 질문 이동
+      next(qIdx + 1);
     });
-    next(++qIdx);
-  }, false)
+  });
 }
 
-function next(qIdx){
-  if(qIdx === qPoint){
+function next(qIdx) {
+  if (qIdx === qPoint) {
     showResult();
     return;
   }
 
   const q = document.querySelector('.qArea');
   const a = document.querySelector('.aArea');
-  
-  // 기존에 있는 답변 버튼들 모두 제거
+
+  // 기존 답변 버튼 제거
   a.innerHTML = '';
 
-  // 질문 텍스트 업데이트
+  // 질문 업데이트
   q.innerHTML = qnaList[qIdx].q;
-  
-  // 새로운 답변 버튼들 추가
-  for (let i = 0; i < qnaList[qIdx].a.length; i++){
-    addAnswer(qnaList[qIdx].a[i].answer, qIdx, i);
-  }
+
+  // 답변 버튼 추가
+  addAnswer(qnaList[qIdx].a[0].answer, qIdx);
+
+  // 진행 바 업데이트
   const status = document.querySelector('.status_bar');
-  status.style.width = (100/qPoint) * (qIdx+1) + '%';
+  status.style.width = (100 / qPoint) * (qIdx + 1) + '%';
 }
 
-function start(){
-  start_btn.addEventListener('click', ()=>{
-    intro.style.display='none';
-    qna.style.display='block';
-    
+function start() {
+  start_btn.addEventListener('click', () => {
+    intro.style.display = 'none';
+    qna.style.display = 'block';
+
     let qIdx = 0;
     next(qIdx);
-  } , false);
+  }, false);
 }
