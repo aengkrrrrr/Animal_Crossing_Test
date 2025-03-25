@@ -31,8 +31,22 @@
     padding-top: 70px;
 }
 .qArea {
-    font-size: 24px;
+    width: 330px;
+    font-size: 20px;
     color: #303030;
+    position: relative;
+    z-index: 10;
+}
+.qArea::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: -37px;
+    transform: translate(-50%);
+    width: 530px;
+    height: 120px;
+    background: url(../images/말풍선_기본.png) no-repeat 50% 50% / cover;
+    z-index: -1;
 }
 .aArea {
     padding-top: 60px;
@@ -67,6 +81,9 @@
 .result {
     display: none;
     padding: 50px 20px;
+}
+.resultDesc {
+    padding: 50px 0;
 }
 
 .kakao {
