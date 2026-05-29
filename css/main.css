@@ -17,7 +17,7 @@ main.grid {
   width: 100%;
   max-width: 480px;
   min-height: 100vh;
-  background: #fff;
+  background: linear-gradient(135deg, #ffeb3b 0%, #ffc107 100%);
   box-shadow: 0 0 60px rgba(0,0,0,0.15);
   position: relative;
   overflow: hidden;
@@ -37,31 +37,26 @@ main.grid {
   aspect-ratio: 3/4;
   object-fit: cover;
 }
-
-/* 로고 */
 .intro::before {
   content: '';
   position: absolute;
-  width: min(240px, 52vw);
-  height: min(96px, 21vw);
+  width: min(360px, 78vw);
+  height: min(144px, 31vw);
   left: 50%;
   top: clamp(14px, 3.5vw, 24px);
   transform: translateX(-50%);
   background: url(../images/동숲\ 로고.webp) no-repeat center / contain;
   z-index: 2;
 }
-
-/* 하단 그라데이션 오버레이 — 버튼 가독성용 */
 .intro::after {
   content: '';
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  height: 38%;
-  background: linear-gradient(to top, rgba(0,0,0,0.42) 0%, transparent 100%);
+  height: 40%;
+  background: linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 100%);
   z-index: 1;
   pointer-events: none;
 }
-
 .start_btn {
   position: absolute;
   left: 50%;
@@ -72,10 +67,10 @@ main.grid {
   font-size: clamp(15px, 4vw, 18px);
   padding: clamp(13px, 3vw, 17px) clamp(44px, 13vw, 70px);
   border-radius: 50px;
-  background: #fff;
+  background: linear-gradient(135deg, #ffeb3b 0%, #ffc107 100%);
   border: none;
-  color: #2c5f2e;
-  box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+  color: #1a3a00; text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.3), 0 0 0 3px rgba(255,255,255,0.6);
   white-space: nowrap;
   z-index: 3;
   cursor: pointer;
@@ -86,28 +81,35 @@ main.grid {
 .start_btn:active {
   transform: translateX(-50%) translateY(-3px) scale(1.03);
   box-shadow: 0 10px 30px rgba(0,0,0,0.28);
-  background: #f0faeb;
+  background: linear-gradient(135deg, #fff176 0%, #ffca28 100%);
 }
 
 /* ═══════════════════════════════════════════
-   Q&A — 배경 위에 반투명 카드 구조
+   Q&A
 ═══════════════════════════════════════════ */
 .qna {
   display: none;
   width: 100%;
   min-height: 100vh;
   box-sizing: border-box;
+
+  /* 배경 이미지 직접 설정 */
+  background-image: url(../images/4d5f51e617292bf3dec63e79c7a3392f.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  /* 배경 위에 초록 반투명 오버레이 */
   position: relative;
-  overflow: hidden;
 }
 
-/* 배경 이미지 */
-.qna::before {
-  content: '';
+/* 오버레이 — 배경 이미지 위에 깔아서 가독성 확보 */
+.qna-overlay {
   position: absolute;
   inset: 0;
-  background: url(../images/4d5f51e617292bf3dec63e79c7a3392f.jpg) no-repeat center / cover;
-  filter: brightness(0.55) blur(1px);
+  background: rgba(220, 242, 210, 0.82);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
   z-index: 0;
 }
 
@@ -116,8 +118,8 @@ main.grid {
   position: relative;
   z-index: 2;
   margin: clamp(16px, 4vw, 24px) clamp(16px, 4vw, 24px) 0;
-  height: 8px;
-  background: rgba(255,255,255,0.3);
+  height: 10px;
+  background: rgba(255,255,255,0.6);
   border-radius: 10px;
   overflow: hidden;
 }
@@ -125,11 +127,11 @@ main.grid {
   width: 0;
   height: 100%;
   border-radius: 10px;
-  background: linear-gradient(to right, #a5d6a7, #43a047);
+  background: linear-gradient(to right, #a5d6a7, #388e3c);
   transition: width .45s cubic-bezier(.4,0,.2,1);
 }
 
-/* 질문 카드 */
+/* 질문+버튼 래퍼 */
 .qna_wrap {
   position: relative;
   z-index: 2;
@@ -139,25 +141,21 @@ main.grid {
   align-items: center;
 }
 
+/* 질문 카드 */
 .qArea {
   width: 100%;
   max-width: 400px;
-  background: rgba(255,255,255,0.96);
+  background: #ffffff;
   border-radius: 20px;
-  padding: clamp(20px, 5vw, 30px) clamp(18px, 5vw, 28px);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  padding: clamp(20px, 5vw, 28px) clamp(18px, 5vw, 26px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.10);
   font-size: clamp(15px, 4.2vw, 18px);
   color: #1a3a1a;
   font-weight: 600;
-  line-height: 1.65;
+  line-height: 1.7;
   text-align: center;
-  margin-bottom: clamp(16px, 4vw, 24px);
-}
-
-/* 질문 번호 강조 */
-.qArea strong,
-.qArea b {
-  color: #43a047;
+  margin-bottom: clamp(14px, 3.5vw, 22px);
+  border: 2px solid rgba(123,198,122,0.3);
 }
 
 /* 답변 버튼 */
@@ -168,46 +166,41 @@ main.grid {
   flex-direction: column;
   gap: clamp(10px, 2.5vw, 14px);
 }
-
 .answerList {
   width: 100%;
   border: none;
-  padding: clamp(14px, 3.8vw, 19px) clamp(18px, 5vw, 26px);
-  background: rgba(255,255,255,0.95);
+  padding: clamp(15px, 3.8vw, 19px) clamp(18px, 5vw, 24px);
+  background: #ffffff;
   border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+  box-shadow: 0 3px 12px rgba(0,0,0,0.08);
   color: #1a3a1a;
   font-family: 'SUIT', sans-serif;
   font-size: clamp(13px, 3.6vw, 15px);
   font-weight: 500;
   text-align: left;
   cursor: pointer;
-  line-height: 1.55;
+  line-height: 1.6;
   border: 2px solid transparent;
   transition: all .2s ease;
   position: relative;
   overflow: hidden;
 }
-
-/* 왼쪽 컬러 액센트 */
 .answerList::before {
   content: '';
   position: absolute;
   left: 0; top: 0; bottom: 0;
-  width: 4px;
-  background: #7bc67a;
+  width: 5px;
+  background: linear-gradient(to bottom, #7bc67a, #43a047);
   border-radius: 4px 0 0 4px;
   opacity: 0;
   transition: opacity .2s;
 }
 .answerList:hover::before,
 .answerList:active::before { opacity: 1; }
-
 .answerList:hover {
-  background: #fff;
   border-color: #7bc67a;
-  transform: translateY(-2px) translateX(4px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.16);
+  transform: translateY(-2px) translateX(3px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
 }
 .answerList.selected {
   background: #e8f5e2;
@@ -223,19 +216,16 @@ main.grid {
   width: 100%;
   padding: clamp(28px, 6vw, 48px) clamp(20px, 5vw, 36px) clamp(48px, 10vw, 72px);
   box-sizing: border-box;
-  background: #fff;
+  background: linear-gradient(135deg, #ffeb3b 0%, #ffc107 100%);
   text-align: center;
 }
-
 .result-heading {
   font-size: clamp(12px, 3vw, 14px);
   color: #aaa;
   font-weight: 400;
   margin-bottom: clamp(16px, 4vw, 24px);
   letter-spacing: 0.5px;
-  text-transform: uppercase;
 }
-
 .resultImg { margin-bottom: clamp(14px, 3.5vw, 20px); }
 .result-character-img {
   width: clamp(130px, 38vw, 190px);
@@ -245,7 +235,6 @@ main.grid {
   border: 5px solid #7bc67a;
   box-shadow: 0 6px 28px rgba(67,160,71,0.22);
 }
-
 .resultName {
   font-size: clamp(13px, 3.5vw, 15px);
   font-weight: 400;
@@ -263,7 +252,7 @@ main.grid {
 .mbtiTag {
   display: inline-block;
   background: #e8f5e2;
-  color: #2c5f2e;
+  color: #1a3a00; text-shadow: 0 1px 0 rgba(255,255,255,0.4);
   font-size: clamp(11px, 2.8vw, 13px);
   font-weight: 700;
   padding: 5px 16px;
@@ -271,7 +260,6 @@ main.grid {
   border: 1.5px solid #7bc67a;
   letter-spacing: 2px;
 }
-
 .result-divider {
   width: 36px;
   height: 3px;
@@ -279,7 +267,6 @@ main.grid {
   border-radius: 2px;
   margin: clamp(18px, 4.5vw, 28px) auto;
 }
-
 .resultDesc {
   font-size: clamp(13px, 3.5vw, 15px);
   color: #444;
@@ -295,19 +282,15 @@ main.grid {
 /* ═══════════════════════════════════════════
    궁합
 ═══════════════════════════════════════════ */
-.compatSection {
-  margin-bottom: clamp(20px, 5vw, 32px);
-}
+.compatSection { margin-bottom: clamp(20px, 5vw, 32px); }
 .compat-title {
   font-size: clamp(12px, 3.2vw, 14px);
   font-weight: 700;
   margin-bottom: 10px;
   text-align: left;
-  letter-spacing: 0.3px;
 }
 .compat-title.good { color: #2c5f2e; }
 .compat-title.bad  { color: #b71c1c; }
-
 .compat-grid {
   display: flex;
   gap: clamp(10px, 3vw, 16px);
@@ -364,7 +347,6 @@ main.grid {
 .share-btn:hover  { transform: translateY(-2px); box-shadow: 0 5px 16px rgba(0,0,0,0.13); }
 .share-btn:active { transform: scale(0.98); }
 .share-btn img    { width: 20px; height: 20px; object-fit: contain; }
-
 .kakao-btn   { background: #fee500; color: #191919; }
 .twitter-btn { background: #111; color: #fff; }
 .copy-btn    { background: #f0faeb; color: #2c5f2e; border: 1.5px solid #7bc67a; }
@@ -374,7 +356,7 @@ main.grid {
   padding: clamp(13px, 3.2vw, 16px);
   border-radius: 14px;
   border: 1.5px solid #e0e0e0;
-  background: #fff;
+  background: linear-gradient(135deg, #ffeb3b 0%, #ffc107 100%);
   color: #999;
   font-family: 'SUIT', sans-serif;
   font-size: clamp(13px, 3.5vw, 15px);
@@ -385,7 +367,7 @@ main.grid {
 .retry_btn:hover { border-color: #7bc67a; color: #2c5f2e; background: #f0faeb; }
 
 /* ═══════════════════════════════════════════
-   PC — 카드 플로팅
+   PC
 ═══════════════════════════════════════════ */
 @media (min-width: 520px) {
   main.grid {
