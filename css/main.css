@@ -40,10 +40,10 @@ main.grid {
 .intro::before {
   content: '';
   position: absolute;
-  width: min(360px, 78vw);
-  height: min(144px, 31vw);
+  width: min(480px, 90vw);
+  height: min(192px, 42vw);
   left: 50%;
-  top: clamp(14px, 3.5vw, 24px);
+  top: clamp(40px, 10vw, 70px);
   transform: translateX(-50%);
   background: url(../images/동숲\ 로고.webp) no-repeat center / contain;
   z-index: 2;
