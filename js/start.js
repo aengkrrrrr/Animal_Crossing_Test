@@ -39,8 +39,14 @@ function showQuestion(qIdx) {
   // 진행바 업데이트
   statusBar.style.width = ((100 / qPoint) * qIdx) + '%';
 
-  // 질문 텍스트
-  q.innerHTML = qnaList[qIdx].q;
+  // 질문 이미지 + 텍스트
+  const qImgSrc = qnaList[qIdx].img;
+  q.innerHTML = `
+    <div class="qImg-wrap">
+      <img class="qImg" src="${qImgSrc}" alt="질문 이미지">
+    </div>
+    <p class="qText">${qnaList[qIdx].q}</p>
+  `;
 
   // 답변 버튼 렌더링
   a.innerHTML = '';
