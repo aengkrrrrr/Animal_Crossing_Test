@@ -17,7 +17,7 @@ document.querySelector('.start_btn').addEventListener('click', () => {
   currentResult = null;
 
   intro.style.display = 'none';
-  qna.style.display   = 'block';
+  qna.style.display   = 'flex';
   result.style.display = 'none';
 
   showQuestion(0);
