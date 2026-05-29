@@ -111,7 +111,7 @@ main.grid {
 .qna {
   display: none;
   width: 100%;
-  min-height: 100vh;
+  aspect-ratio: 3/4;
   box-sizing: border-box;
   flex-direction: column;
 
@@ -258,6 +258,7 @@ main.grid {
 .result {
   display: none;
   width: 100%;
+  min-height: unset;
   padding: clamp(28px, 6vw, 48px) clamp(20px, 5vw, 36px) clamp(48px, 10vw, 72px);
   box-sizing: border-box;
   background: #fafff7;
@@ -421,5 +422,5 @@ main.grid {
     overflow: hidden;
   }
   .main_bg { aspect-ratio: 9 / 14; }
-  .qna { min-height: 100vh; }
+  .qna { aspect-ratio: 3/4; min-height: unset; }
 }
