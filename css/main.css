@@ -90,7 +90,6 @@ main.grid {
 .qna {
   display: none;
   width: 100%;
-  min-height: 100vh;
   box-sizing: border-box;
 
   /* 배경 이미지 직접 설정 */
@@ -135,7 +134,7 @@ main.grid {
 .qna_wrap {
   position: relative;
   z-index: 2;
-  padding: clamp(20px, 5vw, 36px) clamp(16px, 4vw, 24px) clamp(28px, 7vw, 48px);
+  padding: clamp(20px, 5vw, 32px) clamp(16px, 4vw, 24px) clamp(20px, 5vw, 32px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -216,7 +215,7 @@ main.grid {
   width: 100%;
   padding: clamp(28px, 6vw, 48px) clamp(20px, 5vw, 36px) clamp(48px, 10vw, 72px);
   box-sizing: border-box;
-  background: linear-gradient(135deg, #ffeb3b 0%, #ffc107 100%);
+  background: #fafff7;
   text-align: center;
 }
 .result-heading {
@@ -377,5 +376,5 @@ main.grid {
     overflow: hidden;
   }
   .main_bg { aspect-ratio: 9 / 14; }
-  .qna { min-height: 640px; }
+  .qna { min-height: auto; }
 }
