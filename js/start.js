@@ -1,108 +1,161 @@
-const start_btn = document.querySelector('.start_btn');
-const intro = document.querySelector('.intro');
-const qna = document.querySelector('.qna');
-const result = document.querySelector('.result');
-const qPoint = qnaList.length; // 질문 개수
-const answerList = []; // 사용자의 선택 기록
+// ============================================================
+//  상태 변수
+// ============================================================
+const intro   = document.querySelector('.intro');
+const qna     = document.querySelector('.qna');
+const result  = document.querySelector('.result');
+const qPoint  = qnaList.length;
 
-// 결과 계산 함수
-function calResult() {
-  // resultConditions에서 answers와 answerList를 비교하여 일치하는 결과 인덱스를 찾음
-  const resultIndex = resultConditions.find(condition => {
-    // answerList의 선택과 resultConditions의 answers 배열이 일치하는지 확인
-    return condition.answers.every((answer, idx) => answer === answerList[idx]);
-  });
+let scores    = { E:0, I:0, N:0, S:0, F:0, T:0, P:0, J:0 };
+let currentResult = null; // 최종 결과 주민 데이터
 
-  // 결과가 존재하면 그에 해당하는 result 값 반환
-  if (resultIndex) {
-    return resultIndex.result;
-  } else {
-    console.error('결과를 찾을 수 없습니다.');
-    return 0; // 기본값을 0으로 설정 (예시)
-  }
-}
+// ============================================================
+//  퀴즈 시작
+// ============================================================
+document.querySelector('.start_btn').addEventListener('click', () => {
+  scores = { E:0, I:0, N:0, S:0, F:0, T:0, P:0, J:0 };
+  currentResult = null;
 
-// 결과 설정 함수
-function setResult() {
-  let point = calResult();
-  console.log("결과 인덱스: ", point);
+  intro.style.display = 'none';
+  qna.style.display   = 'block';
+  result.style.display = 'none';
 
-  const resultName = document.querySelector('.resultName');
-  const resultDesc = document.querySelector('.resultDesc');
+  showQuestion(0);
+});
 
-  if (resultList[point]) {
-    resultName.innerHTML = resultList[point].name;
-    resultDesc.innerHTML = resultList[point].desc;
-  } else {
-    console.error("잘못된 결과 인덱스: ", point);
-  }
-
-  // 결과 이미지 설정
-  const imgDiv = document.querySelector('.resultImg');
-  imgDiv.innerHTML = ''; // 기존 이미지 제거
-  let resultImg = document.createElement('img');
-  resultImg.src = `/animal_crossing/images/members/image-${point}.jpg`;
-  resultImg.classList.add('img-fluid');
-  imgDiv.appendChild(resultImg);
-}
-
-// 결과 페이지로 이동
-function showResult() {
-  qna.style.display = 'none';
-  result.style.display = 'block';
-  setResult();
-}
-
-// 답변 버튼을 추가하는 함수
-function addAnswer(answerObj, qIdx) {
-  const a = document.querySelector('.aArea');
-  Object.keys(answerObj).forEach(key => {
-    const answer = document.createElement('button');
-    answer.classList.add('answerList');
-    answer.innerHTML = answerObj[key];
-    a.appendChild(answer);
-
-    answer.addEventListener('click', function() {
-      answerList[qIdx] = key; // 사용자가 선택한 값 저장
-      console.log(`질문 ${qIdx + 1}: ${key} 선택`);
-
-      // 다음 질문 이동
-      next(qIdx + 1);
-    });
-  });
-}
-
-// 질문을 넘어가는 함수
-function next(qIdx) {
+// ============================================================
+//  질문 표시
+// ============================================================
+function showQuestion(qIdx) {
   if (qIdx === qPoint) {
-    showResult(); // 모든 질문을 다 진행한 후 결과 표시
+    showResult();
     return;
   }
 
   const q = document.querySelector('.qArea');
   const a = document.querySelector('.aArea');
+  const statusBar = document.querySelector('.status_bar');
 
-  // 기존 답변 버튼 제거
-  a.innerHTML = '';
+  // 진행바 업데이트
+  statusBar.style.width = ((100 / qPoint) * qIdx) + '%';
 
-  // 질문 텍스트 업데이트
+  // 질문 텍스트
   q.innerHTML = qnaList[qIdx].q;
 
-  // 답변 버튼 추가 (각 질문에 맞는 답변 버튼)
-  addAnswer(qnaList[qIdx].a[0].answer, qIdx);
+  // 답변 버튼 렌더링
+  a.innerHTML = '';
+  const answerData = qnaList[qIdx].a;
+  const scoreData  = qnaList[qIdx].score;
 
-  // 진행 상태 바 업데이트
-  const status = document.querySelector('.status_bar');
-  status.style.width = (100 / qPoint) * (qIdx + 1) + '%';
+  ['a', 'b'].forEach(key => {
+    const btn = document.createElement('button');
+    btn.classList.add('answerList');
+    btn.innerHTML = answerData[key];
+    btn.addEventListener('click', () => {
+      // 점수 누적
+      const pts = scoreData[key];
+      Object.keys(pts).forEach(axis => { scores[axis] += pts[axis]; });
+
+      // 선택 애니메이션
+      btn.classList.add('selected');
+      setTimeout(() => showQuestion(qIdx + 1), 320);
+    });
+    a.appendChild(btn);
+  });
 }
 
-// 퀴즈 시작 함수
-function start() {
-  start_btn.addEventListener('click', () => {
-    intro.style.display = 'none';
-    qna.style.display = 'block';
+// ============================================================
+//  결과 화면 표시
+// ============================================================
+function showResult() {
+  qna.style.display    = 'none';
+  result.style.display = 'block';
 
-    let qIdx = 0;
-    next(qIdx); // 첫 번째 질문으로 시작
-  }, false);
+  const { index, mbtiType } = calcResult(scores);
+  currentResult = resultList[index];
+  const res = currentResult;
+
+  // 진행바 100%
+  document.querySelector('.status_bar').style.width = '100%';
+
+  // 이름 + MBTI
+  document.querySelector('.resultName').innerHTML =
+    `${res.emoji} ${res.title}<br><span class="resultCharName">${res.name}</span><span class="mbtiTag">${mbtiType}</span>`;
+
+  // 설명
+  document.querySelector('.resultDesc').innerHTML = res.desc;
+
+  // 캐릭터 이미지
+  const imgDiv = document.querySelector('.resultImg');
+  imgDiv.innerHTML = '';
+  const img = document.createElement('img');
+  img.src = res.img;
+  img.alt = res.name;
+  img.classList.add('img-fluid', 'result-character-img');
+  imgDiv.appendChild(img);
+
+  // 궁합 주민 렌더링
+  renderCompat(res);
+
+  // 공유 버튼 초기화
+  initShareButtons(res, mbtiType);
 }
+
+// ============================================================
+//  궁합 주민 렌더링
+// ============================================================
+function renderCompat(res) {
+  const compatSection = document.querySelector('.compatSection');
+  compatSection.innerHTML = '';
+
+  // 잘 맞는 주민
+  const compatTitle = document.createElement('p');
+  compatTitle.className = 'compat-title good';
+  compatTitle.innerHTML = '💚 잘 맞는 주민';
+  compatSection.appendChild(compatTitle);
+
+  const compatGrid = document.createElement('div');
+  compatGrid.className = 'compat-grid';
+  res.compat.forEach(idx => {
+    const villager = resultList[idx];
+    const card = document.createElement('div');
+    card.className = 'compat-card good';
+    card.innerHTML = `
+      <img src="${villager.img}" alt="${villager.name}">
+      <span class="compat-emoji">${villager.emoji}</span>
+      <span class="compat-name">${villager.name}</span>
+    `;
+    compatGrid.appendChild(card);
+  });
+  compatSection.appendChild(compatGrid);
+
+  // 티격태격 주민
+  const rivalTitle = document.createElement('p');
+  rivalTitle.className = 'compat-title bad';
+  rivalTitle.innerHTML = '🔴 티격태격 주민';
+  compatSection.appendChild(rivalTitle);
+
+  const rivalGrid = document.createElement('div');
+  rivalGrid.className = 'compat-grid';
+  res.rival.forEach(idx => {
+    const villager = resultList[idx];
+    const card = document.createElement('div');
+    card.className = 'compat-card bad';
+    card.innerHTML = `
+      <img src="${villager.img}" alt="${villager.name}">
+      <span class="compat-emoji">${villager.emoji}</span>
+      <span class="compat-name">${villager.name}</span>
+    `;
+    rivalGrid.appendChild(card);
+  });
+  compatSection.appendChild(rivalGrid);
+}
+
+// ============================================================
+//  다시하기
+// ============================================================
+document.querySelector('.retry_btn').addEventListener('click', () => {
+  result.style.display = 'none';
+  intro.style.display  = 'block';
+  document.querySelector('.status_bar').style.width = '0%';
+});
