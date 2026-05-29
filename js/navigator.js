@@ -1,7 +1,7 @@
 // ============================================================
 //  공유 기능 초기화 (결과가 나온 뒤 start.js에서 호출)
 // ============================================================
-const SITE_URL  = 'https://aengkrrrrr.github.io/Animal_Crossing_Test/index.html';
+const SITE_URL  = window.location.origin + window.location.pathname;
 const KAKAO_KEY = '73bae3352b43587b4d39e109e0f2ce78';
 
 // 카카오 SDK 초기화 (중복 방지)
@@ -15,6 +15,9 @@ function initShareButtons(res, mbtiType) {
     <button class="share-btn kakao-btn" id="btnKakao">
       <img src="images/kakao_icon.png" alt="카카오" onerror="this.style.display='none'">
       카카오톡 공유
+    </button>
+    <button class="share-btn twitter-btn" id="btnTwitter">
+      𝕏 트위터 공유
     </button>
     <button class="share-btn copy-btn" id="btnCopy">
       🔗 링크 복사
