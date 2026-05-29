@@ -57,6 +57,27 @@ main.grid {
   z-index: 1;
   pointer-events: none;
 }
+
+.intro-subtitle {
+  position: absolute;
+  left: 50%;
+  top: clamp(210px, 46vw, 290px);
+  transform: translateX(-50%);
+  z-index: 3;
+  white-space: nowrap;
+  font-family: 'SUIT', sans-serif;
+  font-size: clamp(13px, 3.6vw, 16px);
+  font-weight: 700;
+  color: #fff;
+  background: rgba(0,0,0,0.28);
+  padding: 6px 18px;
+  border-radius: 30px;
+  letter-spacing: 0.3px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  margin: 0;
+}
+
 .start_btn {
   position: absolute;
   left: 50%;
