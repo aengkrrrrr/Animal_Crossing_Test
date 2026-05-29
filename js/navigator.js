@@ -1,34 +1,79 @@
-const share_btn = document.querySelector('.share_btn');
+// ============================================================
+//  공유 기능 초기화 (결과가 나온 뒤 start.js에서 호출)
+// ============================================================
+const SITE_URL   = 'https://aengkrrrrr.github.io/Animal_Crossing_Test/'; 
+const KAKAO_KEY  = '73bae3352b43587b4d39e109e0f2ce78'; 
 
-if (typeof navigator.share !== "undefined") {
-	window.navigator.share({
-	  title: '동물의 숲 심리테스트입니다', // 공유될 제목
-	  text: '나와 닮은 주민은 누구일끼? 지금 당장 테스트 해보세요!', // 공유될 설명
-	  url: 'http://srimm3399.dothome.co.kr/animal_crossing/index.html', // 공유될 URL
-	  files: [], // 공유할 파일 배열
-	});
+// 카카오 SDK 초기화 (중복 방지)
+if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
+  Kakao.init(KAKAO_KEY);
 }
 
-//  카카오톡 공유
-Kakao.Link.sendDefault({
-    objectType: "feed",
-    content: {
-      title: "", // 공유될 제목
-      description: "", // 공유될 설명
-      imageUrl: "", // 공유될 이미지 url
-      link: {
-        mobileWebUrl: "", // 공유될 모바일 URL
-        webUrl: "", // 공유될 웹 URL
+function initShareButtons(res, mbtiType) {
+  const shareWrap = document.querySelector('.share_wrap');
+  shareWrap.innerHTML = `
+    <button class="share-btn kakao-btn" id="btnKakao">
+      <img src="images/kakao_icon.png" alt="카카오" onerror="this.style.display='none'">
+      카카오톡 공유
+    </button>
+    <button class="share-btn twitter-btn" id="btnTwitter">
+      𝕏 트위터 공유
+    </button>
+    <button class="share-btn copy-btn" id="btnCopy">
+      🔗 링크 복사
+    </button>
+  `;
+
+  const shareTitle = `나는 ${res.emoji} ${res.name} (${mbtiType}) 타입!`;
+  const shareDesc  = `나와 닮은 동숲 주민을 찾아봤어요! 지금 테스트해보세요 🌿`;
+  const thumbUrl   = SITE_URL + res.img; // 배포 후 절대경로
+
+  // 카카오 공유
+  document.getElementById('btnKakao').addEventListener('click', () => {
+    if (typeof Kakao === 'undefined' || !Kakao.isInitialized()) {
+      alert('카카오 SDK가 아직 로드되지 않았어요. 잠시 후 다시 시도해주세요.');
+      return;
+    }
+    Kakao.Share.sendDefault({
+      objectType: 'feed',
+      content: {
+        title: shareTitle,
+        description: shareDesc,
+        imageUrl: thumbUrl,
+        link: {
+          mobileWebUrl: SITE_URL,
+          webUrl: SITE_URL
+        }
       },
-    },
+      buttons: [{
+        title: '나도 테스트하기 🌿',
+        link: { mobileWebUrl: SITE_URL, webUrl: SITE_URL }
+      }]
+    });
   });
 
-//   트위터 공유
-const sendText = ""; // 공유할 텍스트
-const sendUrl = ""; // 공유할 URL
-window.open(`https://twitter.com/intent/tweet?text=${sendText}&url=${sendUrl}`);
+  // 트위터(X) 공유
+  document.getElementById('btnTwitter').addEventListener('click', () => {
+    const text = encodeURIComponent(`${shareTitle}\n${shareDesc}`);
+    const url  = encodeURIComponent(SITE_URL);
+    window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+  });
 
-
-// title: '동물의 숲 심리테스트입니다.', // 공유될 제목
-// text: '나와 닮은 주민은 누구일끼? 지금 당장 테스트 해보세요!', // 공유될 설명
-// url: 'http://srimm3399.dothome.co.kr/animal_crossing/index.html', // 공유될 URL
+  // 링크 복사
+  document.getElementById('btnCopy').addEventListener('click', () => {
+    navigator.clipboard.writeText(SITE_URL).then(() => {
+      const btn = document.getElementById('btnCopy');
+      btn.textContent = '✅ 복사됐어요!';
+      setTimeout(() => { btn.textContent = '🔗 링크 복사'; }, 2000);
+    }).catch(() => {
+      // clipboard API 미지원 시 fallback
+      const tmp = document.createElement('textarea');
+      tmp.value = SITE_URL;
+      document.body.appendChild(tmp);
+      tmp.select();
+      document.execCommand('copy');
+      document.body.removeChild(tmp);
+      alert('링크가 복사됐어요! 친구에게 공유해보세요 🌿');
+    });
+  });
+}
