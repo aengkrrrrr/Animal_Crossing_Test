@@ -113,7 +113,6 @@ main.grid {
   width: 100%;
   min-height: 100vh;
   box-sizing: border-box;
-  display: flex;
   flex-direction: column;
 
   /* 배경 이미지 직접 설정 */
